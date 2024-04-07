@@ -3,11 +3,6 @@
 const BASE_PATH = __DIR__ . '/..';
 require BASE_PATH . '/vendor/autoload.php';
 
-use Core\Database;
-
-// Get connection to database
-$db = new Database(BASE_PATH . '/.env.local.ini');
-
 echo 'Dropping tables';
 
 // Drop all tables from database

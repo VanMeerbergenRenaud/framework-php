@@ -13,7 +13,6 @@ class Database
     protected string $table;
 
     /**
-     * @param string $ini_path
      * @throws FileNotFoundException
      */
     public function __construct(string $ini_path)
@@ -24,9 +23,9 @@ class Database
     public function dropTables(): void
     {
         $query = 'SHOW TABLES';
-        $tables = $this->pdo->query($query)->fetchAll();
+        $tables = $this->pdo->query($query)->fetchAll(PDO::FETCH_NUM);
         foreach ($tables as $table) {
-            $this->pdo->exec('DROP TABLE ' . $table->Tables_in_jiri);
+            $this->pdo->exec('DROP TABLE ' . $table[0]);
         }
     }
 

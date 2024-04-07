@@ -1,9 +1,14 @@
 <?php
 
 use Core\Database;
+use Core\Exceptions\FileNotFoundException;
 
-// Get connection from db
-$db = new Database(BASE_PATH . '/.env.local.ini');
+try {
+    $db = new Database(BASE_PATH . '/.env.local.ini');
+} catch (FileNotFoundException $e) {
+    echo $e->getMessage();
+    exit(1);
+}
 
 // Drop all the tables from db
 echo 'Dropping tables' . PHP_EOL;
