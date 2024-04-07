@@ -1,0 +1,26 @@
+{
+  "name": "vilain-php",
+  "version": "1.0.0",
+  "description": "> 🧙🏼‍Professeur : Vilain Dominique",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/VanMeerbergenRenaud/vilain-php.git"
+  },
+  "keywords": [
+    "framework",
+    "php"
+  ],
+  "author": "Renaud Vmb",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/VanMeerbergenRenaud/vilain-php/issues"
+  },
+  "homepage": "https://github.com/VanMeerbergenRenaud/vilain-php#readme",
+  "devDependencies": {
+    "tailwindcss": "^3.4.3"
+  }
+}
