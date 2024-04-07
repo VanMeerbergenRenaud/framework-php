@@ -1,0 +1,20 @@
+{
+    "name": "renau/vilain-php",
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/",
+            "Core\\": "core/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Van Meerbergen Renaud",
+            "email": "113695652+VanMeerbergenRenaud@users.noreply.github.com"
+        }
+    ],
+    "require": {
+        "ext-pdo": "*",
+        "ext-ctype": "*",
+        "nesbot/carbon": "^3.2"
+    }
+}
