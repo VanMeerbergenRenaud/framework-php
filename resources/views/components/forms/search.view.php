@@ -1,5 +1,12 @@
+<?php
+/** @var TYPE_NAME $label */ ?>
 <form action="/">
-    <label class="mr-3" for="search">Votre mot de recherche :</label>
-    <input class="border rounded-md p-2" type="text" name="search" id="search">
-    <?php component('forms.controls.button', ['text' => 'Rechercher']) ?>
+    <label for="search"
+           class="font-bold"><?= $label ?></label>
+    <input type="text"
+           id="search"
+           name="search"
+           class="border rounded-md px-2">
+    <?php
+    component('forms.controls.button', ['text' => 'Chercher']) ?>
 </form>

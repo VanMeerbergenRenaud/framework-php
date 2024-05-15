@@ -2,84 +2,89 @@
 
 namespace Core;
 
-use Core\Middlewares\Middleware;
 use Core\Exceptions\MiddlewareNotFoundException;
+use Core\Middlewares\Middleware;
 
 class Router
 {
     private array $routes;
 
-    public function get(string $url, array $action): Router
+    public function get(string $path, array $action): Router
     {
-        $http_method = 'GET';
-        return $this->add(compact('url', 'action', 'http_method'));
+        return $this->add($path, $action, 'GET');
     }
 
-    public function post(string $url, array $action): Router
+    private function add(string $path, array $action, string $request_method): Router
     {
-        $http_method = 'POST';
-        return $this->add(compact('url', 'action', 'http_method'));
-    }
+        $this->routes[] = compact('path', 'action', 'request_method');
 
-    public function patch(string $url, array $action): Router
-    {
-        $http_method = 'PATCH';
-        return $this->add(compact('url', 'action', 'http_method'));
-    }
-
-    public function put(string $url, array $action): Router
-    {
-        $http_method = 'PUT';
-        return $this->add(compact('url', 'action', 'http_method'));
-    }
-
-    public function delete(string $url, array $action): Router
-    {
-        $http_method = 'DELETE';
-        return $this->add(compact('url', 'action', 'http_method'));
-    }
-
-    public function add(array $route_info): Router
-    {
-        $this->routes[] = $route_info;
         return $this;
+    }
+
+    public function post(string $path, array $action): Router
+    {
+        return $this->add($path, $action, 'POST');
+    }
+
+    public function patch(string $path, array $action): Router
+    {
+        return $this->add($path, $action, 'PATCH');
+    }
+
+    public function put(string $path, array $action): Router
+    {
+        return $this->add($path, $action, 'PUT');
+    }
+
+    public function delete(string $path, array $action): Router
+    {
+        return $this->add($path, $action, 'DELETE');
     }
 
     public function csrf(): Router
     {
         $this->routes[array_key_last($this->routes)]['middlewares'][] = 'csrf';
+
         return $this;
     }
 
-    public function only(string $who): Router {
-        $this->routes[array_key_last($this->routes)]['middlewares'][] = $who;
-        return $this;
-    }
-
-    public function routeToController(string $path, string $http_method): void
+    public function only(string $who): Router
     {
-        $route = array_values(array_filter(
-            $this->routes,
-            fn($v, $k) => $path === $v['url'] && strtoupper($http_method) === strtoupper($v['http_method']),
-            ARRAY_FILTER_USE_BOTH
-        ));
+        $this->routes[array_key_last($this->routes)]['middlewares'][] = $who;
+
+        return $this;
+    }
+
+    public function route_to_controller(mixed $request_method, string $request_uri): void
+    {
+        $route =
+            array_values(
+                array_filter(
+                    $this->routes,
+                    fn($v, $k) => $v['path'] === $request_uri
+                        && strtoupper($v['request_method']) === strtoupper($request_method),
+                    ARRAY_FILTER_USE_BOTH
+                )
+            );
 
         if (empty($route)) {
             Response::abort();
         }
-
-        if (isset($route[0]['middlewares'])) {
-            foreach ($route[0]['middlewares'] as $middleware) {
+        $route = $route[0];
+        if (isset($route['middlewares'])) {
+            foreach ($route['middlewares'] as $middleware) {
                 try {
                     Middleware::resolve($middleware);
                 } catch (MiddlewareNotFoundException $exception) {
-                    dd("Le middleware {${$exception->getMessage()}} n'existe pas");
+                    dd("Le middleware {$exception->getMessage()} n'existe pas sur l'application");
                 }
             }
         }
 
-        $route = $route[0];
-        $controller = new $route['action'][0]();
-        $controller->{$route['action'][1]}();
+        $action = $route['action'];
+        [$controller_name, $method_name] = $action;
+
+        $controller = new $controller_name();
+        $controller->{$method_name}();
     }
 }

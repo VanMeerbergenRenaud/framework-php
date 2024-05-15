@@ -1,20 +1,25 @@
 {
-    "name": "renau/vilain-php",
-    "autoload": {
-        "psr-4": {
-            "App\\": "app/",
-            "Core\\": "core/"
-        }
-    },
-    "authors": [
-        {
-            "name": "Van Meerbergen Renaud",
-            "email": "113695652+VanMeerbergenRenaud@users.noreply.github.com"
-        }
-    ],
-    "require": {
-        "ext-pdo": "*",
-        "ext-ctype": "*",
-        "nesbot/carbon": "^3.2"
+  "name": "dominique/jiri",
+  "description": "An app to rule all the jiris",
+  "require": {
+    "php": "^8.2",
+    "ext-pdo": "*",
+    "ext-ctype": "*",
+    "nesbot/carbon": "^3.1"
+  },
+  "autoload": {
+    "psr-4": {
+      "Core\\": "core/",
+      "App\\": "app/"
     }
+  },
+  "authors": [
+    {
+      "name": "Dominique Vilain",
+      "email": "dominiquevilain@users.noreply.github.com"
+    }
+  ],
+  "require-dev": {
+    "laravel/pint": "^1.15"
+  }
 }

@@ -1,60 +1,56 @@
 <?php
-    /** @var array $upcoming_jiris */
-    /** @var array $passed_jiris */
+/** @var array $upcoming_jiris */
+
+/** @var array $jiris */
+
+/** @var array $past_jiris */
 ?>
-<!DOCTYPE html>
+<!doctype html>
 <html lang="fr">
     <head>
         <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-        <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        <link rel="stylesheet" href="<?= public_path('css/app.css') ?>">
+        <meta name="viewport"
+              content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+        <meta http-equiv="X-UA-Compatible"
+              content="ie=edge">
         <title>Jiris</title>
+        <link rel="stylesheet"
+              href="<?= public_path('css/app.css') ?>">
     </head>
     <body>
-        <div class="flex flex-col-reverse gap-4">
-            <main class="flex flex-col gap-4 mx-auto max-w-screen-xl pt-5">
-                <div class="flex items-center gap-10 mb-5 justify-between">
-                    <h1 class="text-3xl font-bold">Les Jiris</h1>
-                    <?php component('forms.search') ?>
-                </div>
-                <div class="flex gap-5 justify-between mb-5">
-                    <section class="border rounded-md min-w-96 p-6">
-                        <h2 class="text-xl font-bold mb-2">Jiri à venir</h2>
-                        <?php if (count($upcoming_jiris) > 0): ?>
-                            <ol>
-                                <?php foreach ($upcoming_jiris as $jiri): ?>
-                                    <li class="mb-1">
-                                        <a class="text-blue-500 underline" href="/jiri?id=<?= $jiri->id ?>"><?= $jiri->name ?></a>
-                                        <p class="text-sm"><?= date('j F o', strtotime($jiri->starting_at)) ?></p>
-                                    </li>
-                                <?php endforeach; ?>
-                            </ol>
-                        <?php else: ?>
-                            <p>Il n'y a pas de jiri à venir</p>
-                        <?php endif; ?>
-                    </section>
-                    <section class="border rounded-md min-w-96 p-6">
-                        <h2 class="text-xl font-bold mb-2">Jiri passés</h2>
-                        <?php if (count($passed_jiris) > 0): ?>
-                            <ol>
-                                <?php foreach ($passed_jiris as $jiri): ?>
-                                    <li class="mb-1">
-                                        <a class="text-blue-500 underline" href="/jiri?id=<?= $jiri->id ?>"><?= $jiri->name ?></a>
-                                        <p class="text-sm"><?= date('j F o', strtotime($jiri->starting_at)) ?></p>
-                                    </li>
-                                <?php endforeach; ?>
-                            </ol>
-                        <?php else: ?>
-                            <p>Il n'y a pas de jiri archivés</p>
-                        <?php endif; ?>
-                    </section>
-                </div>
+        <a class="sr-only"
+           href="#main-menu">Aller au menu principal</a>
+        <div class="container mx-auto flex flex-col-reverse gap-6">
+            <main class="flex flex-col gap-4">
+                <h1 class="font-bold text-2xl">Jiris</h1>
+                <?php
+                component('forms.search', ['label' => 'Nom du jiri']); ?>
+
+                <section>
+                    <h2 class="font-bold">Jiris à venir</h2>
+                    <?php
+                    component('jiris.list', [
+                        'title' => 'Jiris à venir',
+                        'jiris' => $upcoming_jiris,
+                    ]) ?>
+                </section>
+
+                <section>
+                    <h2 class="font-bold">Jiris passés</h2>
+                    <?php
+                    component('jiris.list', [
+                        'title' => 'Jiris passés',
+                        'jiris' => $past_jiris,
+                    ]) ?>
+                </section>
+
                 <div>
-                    <a href="/jiri/create" class="underline text-blue-500">+ Créer un nouveau Jiri</a>
+                    <a href="/jiri/create"
+                       class="underline text-blue-500">Créer un nouveau jiri</a>
                 </div>
             </main>
-            <?php component('navigations.main') ?>
+            <?php
+            component('navigations.main'); ?>
         </div>
     </body>
 </html>

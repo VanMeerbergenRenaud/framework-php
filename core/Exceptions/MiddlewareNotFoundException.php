@@ -4,11 +4,8 @@ namespace Core\Exceptions;
 
 class MiddlewareNotFoundException extends \Exception
 {
-    /**
-     * @param string $message
-     */
-    public function __construct(string $message)
+    public function __construct(string $name)
     {
-        parent::__construct($message);
+        parent::__construct($name);
     }
 }

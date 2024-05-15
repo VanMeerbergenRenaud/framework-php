@@ -22,7 +22,7 @@ class View
         require base_path("resources/views/components/{$path}.view.php");
     }
 
-    public static function partial(string $path, array $data = []): void
+    public static function partials(string $path, array $data = []): void
     {
         extract($data);
 
