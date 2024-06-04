@@ -140,6 +140,8 @@ class JiriController
 
         $this->check_ownership($id);
 
+        $this->attendance->deleteByJiriId($id); // Need to add this line to delete the attendance records, otherwise the jiri will not be deleted
+
         $this->jiri->delete($id);
 
         Response::redirect('/jiris');

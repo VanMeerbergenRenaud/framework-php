@@ -24,4 +24,18 @@ class Attendance extends Database
 
         return $statement->execute();
     }
+
+    // Need to add this function to delete all attendances for a given jiri_id
+    public function deleteByJiriId(int $jiri_id): bool
+    {
+        $sql = <<<SQL
+            DELETE FROM $this->table
+            WHERE jiri_id = :jiri_id
+        SQL;
+
+        $statement = $this->prepare($sql);
+        $statement->bindValue('jiri_id', $jiri_id);
+
+        return $statement->execute();
+    }
 }
