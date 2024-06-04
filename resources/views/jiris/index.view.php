@@ -1,60 +1,71 @@
 <?php
-    /** @var array $upcoming_jiris */
-    /** @var array $passed_jiris */
+/** @var array $upcoming_jiris */
+
+/** @var array $jiris */
+
+/** @var array $past_jiris */
 ?>
-<!DOCTYPE html>
+<!doctype html>
 <html lang="fr">
     <head>
         <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-        <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        <link rel="stylesheet" href="<?= public_path('css/app.css') ?>">
+        <meta name="viewport"
+              content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+        <meta http-equiv="X-UA-Compatible"
+              content="ie=edge">
         <title>Jiris</title>
+        <link rel="stylesheet"
+              href="<?= public_path('css/app.css') ?>">
     </head>
-    <body>
-        <div class="flex flex-col-reverse gap-4">
-            <main class="flex flex-col gap-4 mx-auto max-w-screen-xl pt-5">
-                <div class="flex items-center gap-10 mb-5 justify-between">
-                    <h1 class="text-3xl font-bold">Les Jiris</h1>
-                    <?php component('forms.search') ?>
-                </div>
-                <div class="flex gap-5 justify-between mb-5">
-                    <section class="border rounded-md min-w-96 p-6">
-                        <h2 class="text-xl font-bold mb-2">Jiri à venir</h2>
-                        <?php if (count($upcoming_jiris) > 0): ?>
-                            <ol>
-                                <?php foreach ($upcoming_jiris as $jiri): ?>
-                                    <li class="mb-1">
-                                        <a class="text-blue-500 underline" href="/jiri?id=<?= $jiri->id ?>"><?= $jiri->name ?></a>
-                                        <p class="text-sm"><?= date('j F o', strtotime($jiri->starting_at)) ?></p>
-                                    </li>
-                                <?php endforeach; ?>
-                            </ol>
-                        <?php else: ?>
-                            <p>Il n'y a pas de jiri à venir</p>
-                        <?php endif; ?>
-                    </section>
-                    <section class="border rounded-md min-w-96 p-6">
-                        <h2 class="text-xl font-bold mb-2">Jiri passés</h2>
-                        <?php if (count($passed_jiris) > 0): ?>
-                            <ol>
-                                <?php foreach ($passed_jiris as $jiri): ?>
-                                    <li class="mb-1">
-                                        <a class="text-blue-500 underline" href="/jiri?id=<?= $jiri->id ?>"><?= $jiri->name ?></a>
-                                        <p class="text-sm"><?= date('j F o', strtotime($jiri->starting_at)) ?></p>
-                                    </li>
-                                <?php endforeach; ?>
-                            </ol>
-                        <?php else: ?>
-                            <p>Il n'y a pas de jiri archivés</p>
-                        <?php endif; ?>
-                    </section>
-                </div>
-                <div>
-                    <a href="/jiri/create" class="underline text-blue-500">+ Créer un nouveau Jiri</a>
-                </div>
-            </main>
-            <?php component('navigations.main') ?>
-        </div>
-    </body>
+    <?php
+    partials('common_html_start');
+    ?>
+    <h1 class="font-bold text-2xl">Vos jiris</h1>
+    <?php
+    if (!empty($past_jiris) || !empty($upcoming_jiris)) : ?>
+        <?php
+        component('forms.search', ['label' => 'Nom du jiri']); ?>
+        <?php
+        if (!empty($upcoming_jiris)) : ?>
+            <section>
+                <h2 class="font-bold">Jiris à venir</h2>
+                <?php
+                component('jiris.list', [
+                    'title' => 'Jiris à venir',
+                    'jiris' => $upcoming_jiris,
+                ]) ?>
+            </section>
+        <?php
+        endif ?>
+        <?php
+        if (!empty($past_jiris)) : ?>
+            <section>
+                <h2 class="font-bold">Jiris passés</h2>
+                <?php
+                component('jiris.list', [
+                    'title' => 'Jiris passés',
+                    'jiris' => $past_jiris,
+                ]) ?>
+            </section>
+        <?php
+        endif ?>
+    <?php
+    endif ?>
+    <div>
+        <a href="/jiri/create"
+           class="underline text-blue-500 flex items-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg"
+                 viewBox="0 0 24 24"
+                 fill="currentColor"
+                 class="w-6 h-6">
+                <path fill-rule="evenodd"
+                      d="M5.625 1.5H9a3.75 3.75 0 0 1 3.75 3.75v1.875c0 1.036.84 1.875 1.875 1.875H16.5a3.75 3.75 0 0 1 3.75 3.75v7.875c0 1.035-.84 1.875-1.875 1.875H5.625a1.875 1.875 0 0 1-1.875-1.875V3.375c0-1.036.84-1.875 1.875-1.875ZM12.75 12a.75.75 0 0 0-1.5 0v2.25H9a.75.75 0 0 0 0 1.5h2.25V18a.75.75 0 0 0 1.5 0v-2.25H15a.75.75 0 0 0 0-1.5h-2.25V12Z"
+                      clip-rule="evenodd" />
+                <path d="M14.25 5.25a5.23 5.23 0 0 0-1.279-3.434 9.768 9.768 0 0 1 6.963 6.963A5.23 5.23 0 0 0 16.5 7.5h-1.875a.375.375 0 0 1-.375-.375V5.25Z" />
+            </svg>
+            <span>Créer un nouveau jiri</span></a>
+    </div>
+    <?php
+    partials('common_html_end');
+    ?>
 </html>

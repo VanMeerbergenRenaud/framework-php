@@ -1,6 +1,4 @@
 <?php
-    /** @var string $text */
-?>
-<button class="rounded-md bg-blue-500 text-white px-4 py-2" type="submit">
-    <?= $text ?>
-</button>
+/** @var string $text */ ?>
+<button type="submit"
+        class="bg-blue-500 font-bold text-white rounded-md p-2 px-4 tracking-wider uppercase"><?= $text ?></button>

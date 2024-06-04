@@ -8,18 +8,17 @@ class Middleware
 {
     private const MAP = [
         'csrf' => CSRF::class,
-        'auth' => Authenticated::class,
+        'guest' => Guest::class,
+        'auth' => Auth::class,
     ];
 
-    public static function resolve(string $middleware): void
+    public static function resolve(string $name): void
     {
-        if (!array_key_exists($middleware, self::MAP)) {
-            throw new MiddlewareNotFoundException("Middleware $middleware is not defined");
+        if (!array_key_exists($name, self::MAP)) {
+            throw new MiddlewareNotFoundException($name);
         }
 
-        // self is a keyword used to refer to the current class, and it is used to access static properties and methods.
-        $middleware = self::MAP[$middleware];
-
-        (new $middleware)->handle(); // handle method from the CSRF class
+        $name = self::MAP[$name];
+        (new $name())->handle();
     }
 }

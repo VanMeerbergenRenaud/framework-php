@@ -1,18 +1,11 @@
 <?php
 
-use App\Http\Controllers\JiriController;
+use App\Http\Controllers\PagesController;
 
-/** @var core\Router $router */
-$router->get('/', [JiriController::class, 'index']);
+/** @var Core\Router $router */
+$router->get('/', [PagesController::class, 'home'])->only('guest');
 
-$router->get('/jiris', [JiriController::class, 'index']);
-
-$router->get('/jiri', [JiriController::class, 'show']);
-
-$router->get('/jiri/create', [JiriController::class, 'create']);
-$router->post('/jiri', [JiriController::class, 'store'])->csrf();
-
-$router->get('/jiri/edit', [JiriController::class, 'edit']);
-$router->patch('/jiri', [JiriController::class, 'update'])->csrf();
-
-$router->delete('/jiri', [JiriController::class, 'destroy'])->csrf();
+require __DIR__.'/jiri.php';
+require __DIR__.'/attendance.php';
+require __DIR__.'/contact.php';
+require __DIR__.'/auth.php';

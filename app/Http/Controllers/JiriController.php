@@ -2,118 +2,145 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Attendance;
+use App\Models\Contact;
 use App\Models\Jiri;
+use Core\Auth;
+use Core\Concerns\Request\HasIdentifier;
 use Core\Exceptions\FileNotFoundException;
 use Core\Response;
 use Core\Validator;
+use JetBrains\PhpStorm\NoReturn;
+use stdClass;
 
 class JiriController
 {
     private Jiri $jiri;
+    private Contact $contact;
+    private Attendance $attendance;
+
+    use HasIdentifier;
 
     public function __construct()
     {
         try {
-            $this->jiri = new Jiri(BASE_PATH . '/.env.local.ini');
+            $this->jiri = new Jiri(base_path('.env.local.ini'));
+            $this->contact = new Contact(base_path('.env.local.ini'));
+            $this->attendance = new Attendance(base_path('.env.local.ini'));
         } catch (FileNotFoundException $exception) {
-            die($exception->getMessage());
+            exit($exception->getMessage());
         }
     }
 
+    #[NoReturn]
     public function index(): void
     {
         $search = $_GET['search'] ?? '';
-        $statement = $this->jiri->query(<<<SQL
-            SELECT * FROM `jiris`
-            WHERE starting_at > CURRENT_TIMESTAMP 
-            AND name LIKE '%$search%';
-        SQL
-        );
-        $upcoming_jiris = $statement->fetchAll();
 
-        $statement = $this->jiri->query(<<<SQL
-            SELECT * FROM `jiris`
-            WHERE starting_at < CURRENT_TIMESTAMP
-            AND name LIKE '%$search%';
-        SQL
-        );
-        $passed_jiris = $statement->fetchAll();
+        $upcoming_jiris = $this->jiri->upcomingBelongingTo(Auth::id(), 'user');
+        $past_jiris = $this->jiri->pastBelongingTo(Auth::id(), 'user');
 
-        view('jiris.index', compact('upcoming_jiris', 'passed_jiris'));
+
+        view('jiris.index', compact('upcoming_jiris', 'past_jiris'));
+    }
+
+    #[NoReturn]
+    public function store(): void
+    {
+        $data = Validator::check([
+            'name' => 'required|min:3|max:255',
+            'starting_at' => 'required|datetime',
+        ]);
+
+        $data['user_id'] = Auth::id();
+        $filtered_data = array_filter(
+            $data,
+            fn($key) => $key !== 'contacts' && !str_starts_with($key, 'role-'),
+            ARRAY_FILTER_USE_KEY
+        );
+        if ($this->jiri->create($filtered_data)) {
+            $jiri_id = $this->jiri->lastInsertId();
+            if (isset($_REQUEST['contacts'])) {
+                foreach ($_REQUEST['contacts'] as $contact_id) {
+                    $role = $_REQUEST['role-'.$contact_id];
+                    $this->attendance->create(compact('jiri_id', 'contact_id', 'role'));
+                }
+            }
+            Response::redirect('/jiri?id='.$jiri_id);
+        } else {
+            Response::abort(Response::SERVER_ERROR);
+        }
     }
 
     public function create(): void
     {
-        $_SESSION['csrf_token'] = get_csrf_token();
+        $contacts = $this->contact->belongingTo(Auth::id(), 'user');
 
-        view('jiris.create');
-    }
-
-    public function store(): void
-    {
-        $data = Validator::check([
-            'name'=> 'required|min:3|max:255',
-            'starting_at'=> 'required|datetime',
-        ]);
-
-        if ($this->jiri->create($data)) {
-            Response::redirect('/jiris');
-        } else {
-            Response::abort(Response::SERVER_ERROR);
-        }
+        view('jiris.create', compact('contacts'));
     }
 
     public function show(): void
     {
-        if (!isset($_GET['id']) || !ctype_digit($_GET['id'])) { // !ctype_digit — Check si l'id n'est pas de type numérique
-            Response::abort(Response::BAD_REQUEST);
-        }
-
-        $id = $_GET['id'];
+        $id = $this->checkValidId();
 
         $jiri = $this->jiri->findOrFail($id);
+
+        $this->check_ownership($jiri);
+
+        /** @noinspection NullPointerExceptionInspection */
+        $jiri->students = $this->jiri->fetchStudents($jiri?->id);
+        $jiri->evaluators = $this->jiri->fetchEvaluators($jiri?->id);
 
         view('jiris.show', compact('jiri'));
     }
 
-    public function edit(): void
+    private function check_ownership(int|string|stdClass $jiri): void
     {
-        if (!isset($_GET['id']) || !ctype_digit($_GET['id'])) {
-            Response::abort(Response::BAD_REQUEST);
+        if (is_numeric($jiri)) {
+            $jiri = $this->jiri->findOrFail($jiri);
         }
 
-        $id = $_GET['id'];
+        if (Auth::id() !== $jiri?->user_id) {
+            Response::abort(Response::UNAUTHORIZED);
+        }
+    }
+
+    public function edit(): void
+    {
+        $id = $this->checkValidId();
 
         $jiri = $this->jiri->findOrFail($id);
+
+        $this->check_ownership($jiri);
 
         view('jiris.edit', compact('jiri'));
     }
 
+    #[NoReturn]
     public function update(): void
     {
-        $success = $this->jiri->update(
-            $_POST['id'],
-            [
-                'name' => $_POST['name'],
-                'starting_at' => $_POST['starting_at'],
-            ],
-        );
+        $id = $this->checkValidId();
 
-        if ($success) {
-            Response::redirect("/jiri?id={$_POST['id']}");
+        $data = Validator::check([
+            'name' => 'required|min:3|max:255',
+            'starting_at' => 'required|datetime',
+        ]);
 
-        } else {
-            Response::abort(Response::SERVER_ERROR);
-        }
+        $this->check_ownership($id);
+
+        $this->jiri->update($id, $data);
+
+        Response::redirect('/jiri?id='.$id);
     }
 
+    #[NoReturn]
     public function destroy(): void
     {
-        if (!isset($_POST['id']) || !ctype_digit($_POST['id'])) {
-            Response::abort(Response::BAD_REQUEST);
-        }
+        $id = $this->checkValidId();
 
-        $id = $_POST['id'];
+        $this->check_ownership($id);
+
+        $this->attendance->deleteByJiriId($id); // Need to add this line to delete the attendance records, otherwise the jiri will not be deleted
 
         $this->jiri->delete($id);
 

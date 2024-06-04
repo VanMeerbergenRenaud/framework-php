@@ -1,9 +1,14 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ["./resources/**/*.view.php"],
-  theme: {
-    extend: {},
-  },
-  plugins: [],
+    mode: 'jit',
+    purge: ["./resources/**/*.view.php"],
+    content: ["./resources/**/*.view.php"],
+    theme: {
+        fontFamily: {
+            'sans': ['Inter', 'system-ui'],
+        },
+        extend: {},
+    },
+    plugins: [],
 }
 
