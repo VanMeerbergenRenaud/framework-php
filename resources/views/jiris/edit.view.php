@@ -55,14 +55,77 @@ use Carbon\Carbon;
             ?>
         </div>
         <div>
-            <?php
-            component('forms.controls.button', ['text' => 'Modifier ce jiri']);
-            ?>
+            <?php component('forms.controls.button', ['text' => 'Modifier ce jiri']); ?>
         </div>
     </form>
-    <?php
-    component('forms.jiris.delete', ['id' => $jiri->id]) ?>
-    <?php
-    partials('common_html_end');
-    ?>
+    <div>
+        <?php if (count($jiri->students)): ?>
+            <section>
+                <h2 class="font-bold">Les étudiants</h2>
+                <ol class="flex flex-col gap-2">
+                    <?php
+                    foreach ($jiri->students as $student): ?>
+                        <li class="flex gap-2">
+                            <a href="/contact?id=<?= $student->id ?>"><?= $student->name ?>
+                                - <?= $student->email ?></a>
+                            <form action="/attendance"
+                                  method="post">
+                                <?php
+                                method('patch');
+                                csrf_token() ?>
+                                <input type="hidden"
+                                       name="jiri_id"
+                                       value="<?= $jiri->id ?>">
+                                <input type="hidden"
+                                       name="contact_id"
+                                       value="<?= $student->id ?>">
+                                <input type="hidden"
+                                       name="role"
+                                       value="evaluator">
+                                <button type="submit"
+                                        class="px-2 bg-red-500 text-white rounded">Changer en évaluateur
+                                </button>
+                            </form>
+                        </li>
+                    <?php
+                    endforeach; ?>
+                </ol>
+            </section>
+        <?php endif ?>
+
+        <?php if (count($jiri->evaluators)): ?>
+            <section class="mt-4">
+                <h2 class="font-bold">Les évaluateurs</h2>
+                <ol class="flex flex-col gap-2">
+                    <?php
+                    foreach ($jiri->evaluators as $evaluator): ?>
+                        <li class="flex gap-2">
+                            <a href="/contact?id=<?= $evaluator->id ?>"><?= $evaluator->name ?>
+                                - <?= $evaluator->email ?></a>
+                            <form action="/attendance"
+                                  method="post">
+                                <?php
+                                method('patch');
+                                csrf_token() ?>
+                                <input type="hidden"
+                                       name="jiri_id"
+                                       value="<?= $jiri->id ?>">
+                                <input type="hidden"
+                                       name="contact_id"
+                                       value="<?= $evaluator->id ?>">
+                                <input type="hidden"
+                                       name="role"
+                                       value="student">
+                                <button type="submit"
+                                        class="px-2 bg-red-500 text-white rounded">Changer en étudiant
+                                </button>
+                            </form>
+                        </li>
+                    <?php endforeach; ?>
+                </ol>
+            </section>
+        <?php endif ?>
+    </div>
+    <?php component('forms.jiris.delete', ['id' => $jiri->id]) ?>
+    <?php partials('common_html_end'); ?>
 </html>

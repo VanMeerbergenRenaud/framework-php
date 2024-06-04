@@ -32,6 +32,6 @@ class AttendanceController
 
         $this->attendance->setRole($data);
 
-        Response::redirect('/jiri?id='.$data['jiri_id']);
+        Response::redirect('/jiri/edit?id='.$data['jiri_id']);
     }
 }

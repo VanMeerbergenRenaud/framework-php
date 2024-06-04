@@ -113,6 +113,9 @@ class JiriController
 
         $this->check_ownership($jiri);
 
+        $jiri->students = $this->jiri->fetchStudents($jiri->id);
+        $jiri->evaluators = $this->jiri->fetchEvaluators($jiri->id);
+
         view('jiris.edit', compact('jiri'));
     }
 
