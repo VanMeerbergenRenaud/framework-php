@@ -6,7 +6,7 @@ echo 'Seeding User table'.PHP_EOL;
 $password = password_hash('ch4nge_th1s', PASSWORD_DEFAULT);
 $users = [
     ['email' => 'dominique.vilain@hepl.be', 'password' => $password],
-    ['email' => 'daniel.schreurs@hepl.be', 'password' => $password],
+    ['email' => 'renaud.vanmeerbergen@gmail.com', 'password' => $password],
 ];
 $insert_user_in_users_table_sql = 'INSERT INTO users (email, password) VALUES (:email, :password)';
 $insert_user_in_users_table_stmt = $db->prepare($insert_user_in_users_table_sql);

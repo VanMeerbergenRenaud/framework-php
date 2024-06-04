@@ -40,7 +40,6 @@ class AttendanceController
         $data = Validator::check([
             'jiri_id' => 'required',
             'contacts' => 'required',
-            'role' => 'required',
         ]);
 
         foreach ($data['contacts'] as $contact_id) {
@@ -55,5 +54,17 @@ class AttendanceController
         }
 
         Response::redirect('/jiri?id=' . $data['jiri_id']);
+    }
+
+    #[NoReturn] public function destroy(): void
+    {
+        $data = Validator::check([
+            'jiri_id' => 'required',
+            'contact_id' => 'required',
+        ]);
+
+        $this->attendance->delete($data);
+
+        Response::redirect('/jiri/edit?id='.$data['jiri_id']);
     }
 }

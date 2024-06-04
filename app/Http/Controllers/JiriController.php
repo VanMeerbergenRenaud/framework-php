@@ -113,10 +113,15 @@ class JiriController
         $this->check_ownership($jiri);
 
         $contacts = $this->contact->belongingTo(Auth::id(), 'user');
+
+        $distinctsContacts = [];
+        // If there is no one attendance or just the contacts not already added as an attendance
+        $distinctsContacts = $this->contact->distinctsContacts($jiri->id, Auth::id());
+
         $jiri->students = $this->jiri->fetchStudents($jiri->id);
         $jiri->evaluators = $this->jiri->fetchEvaluators($jiri->id);
 
-        view('jiris.edit', compact('jiri', 'contacts'));
+        view('jiris.edit', compact('jiri', 'contacts', 'distinctsContacts'));
     }
 
     #[NoReturn]
@@ -136,8 +141,7 @@ class JiriController
         Response::redirect('/jiri?id='.$id);
     }
 
-    #[NoReturn]
-    public function destroy(): void
+    #[NoReturn] public function destroy(): void
     {
         $id = $this->checkValidId();
 
