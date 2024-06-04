@@ -34,4 +34,26 @@ class AttendanceController
 
         Response::redirect('/jiri/edit?id='.$data['jiri_id']);
     }
+
+    #[NoReturn] public function store(): void
+    {
+        $data = Validator::check([
+            'jiri_id' => 'required',
+            'contacts' => 'required',
+            'role' => 'required',
+        ]);
+
+        foreach ($data['contacts'] as $contact_id) {
+            $role_key = 'role-' . $contact_id;
+            $role = $data[$role_key];
+
+            $this->attendance->create([
+                'jiri_id' => $data['jiri_id'],
+                'contact_id' => $contact_id,
+                'role' => $role
+            ]);
+        }
+
+        Response::redirect('/jiri?id=' . $data['jiri_id']);
+    }
 }

@@ -6,10 +6,12 @@ use JetBrains\PhpStorm\NoReturn;
 #[NoReturn] function dd(mixed ...$vars): void
 {
     foreach ($vars as $var) {
+        echo '<pre>';
         var_dump($var);
-        echo '<hr>';
+        echo '</pre>';
     }
-    exit();
+
+    die();
 }
 
 function view(string $path, array $data = []): void

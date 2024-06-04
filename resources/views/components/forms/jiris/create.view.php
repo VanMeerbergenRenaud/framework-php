@@ -31,8 +31,7 @@
         ]);
         ?>
     </div>
-    <?php
-    if (!empty($contacts)): ?>
+    <?php if (!empty($contacts)): ?>
         <fieldset>
             <legend class="font-bold mb-2 uppercase">Les participants</legend>
             <div class="flex flex-col gap-2">
@@ -60,8 +59,7 @@
                 endforeach; ?>
             </div>
         </fieldset>
-    <?php
-    endif; ?>
+    <?php endif; ?>
     <div>
         <?php
         component('forms.controls.button', ['text' => 'Créer ce jiri']) ?>

@@ -40,7 +40,6 @@ class JiriController
         $upcoming_jiris = $this->jiri->upcomingBelongingTo(Auth::id(), 'user');
         $past_jiris = $this->jiri->pastBelongingTo(Auth::id(), 'user');
 
-
         view('jiris.index', compact('upcoming_jiris', 'past_jiris'));
     }
 
@@ -113,10 +112,11 @@ class JiriController
 
         $this->check_ownership($jiri);
 
+        $contacts = $this->contact->belongingTo(Auth::id(), 'user');
         $jiri->students = $this->jiri->fetchStudents($jiri->id);
         $jiri->evaluators = $this->jiri->fetchEvaluators($jiri->id);
 
-        view('jiris.edit', compact('jiri'));
+        view('jiris.edit', compact('jiri', 'contacts'));
     }
 
     #[NoReturn]

@@ -1,7 +1,7 @@
 JIRI EXAMS 👇🏻
 
 - Ajouter la liste des participants dans la création d'un jiri -> FAIT
-- Pouvoir changer le status de ceux qui sont déjà participants
+- Pouvoir changer le status de ceux qui sont déjà participants -> FAIT
 - Modifier le jiri avec la liste des participants et des projets
 - La liste ne doit pas contenir les participants qui participent déjà (aucun doublons)
 - Pouvoir modifier la liste ainsi que le status des participants

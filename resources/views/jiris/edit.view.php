@@ -23,10 +23,8 @@ use Carbon\Carbon;
     <form action="/jiri"
           method="post"
           class="flex flex-col gap-6 bg-slate-50 rounded p-4">
-        <?php
-        method('patch') ?>
-        <?php
-        csrf_token() ?>
+        <?php method('patch') ?>
+        <?php csrf_token() ?>
         <input type="hidden"
                name="id"
                value="<?= $jiri->id ?>">
@@ -58,6 +56,56 @@ use Carbon\Carbon;
             <?php component('forms.controls.button', ['text' => 'Modifier ce jiri']); ?>
         </div>
     </form>
+
+    <!-- If no attendances -->
+    <?php if (empty($jiri->students) && empty($jiri->evaluators)): ?>
+
+        <!-- Form to add attendances -->
+        <form action="/attendance" method="post" class="flex flex-col gap-6 bg-slate-50 rounded p-4">
+
+            <?php csrf_token() ?>
+            <input type="hidden" name="jiri_id" value="<?= $jiri->id ?>">
+
+            <!-- No attendances-->
+            <legend>NB : Aucun participant pour le moment</legend>
+
+            <div>
+                <?php if (!empty($contacts)): ?>
+                    <fieldset>
+                        <legend class="font-bold mb-2 uppercase">Les participants</legend>
+                        <div class="flex flex-col gap-2">
+                            <?php
+                            /** @var array $contacts */
+                            foreach ($contacts as $contact): ?>
+                                <div>
+                                    <input id="c-<?= $contact->id ?>"
+                                           type="checkbox"
+                                           name="contacts[]"
+                                           class="h-4 w-4"
+                                           value="<?= $contact->id ?>"
+                                    >
+                                    <label for="c-<?= $contact->id ?>"><?= $contact->name ?></label>
+                                    <select name="role-<?= $contact->id ?>"
+                                            id="role-<?= $contact->id ?>"
+                                            class="mx-2 p-2 rounded">
+                                        <option value="student">Étudiant</option>
+                                        <option value="evaluator">Évaluateur</option>
+                                    </select>
+                                    <label for="role-<?= $contact->id ?>"
+                                           class="font-bold sr-only">Rôle</label>
+                                </div>
+                            <?php endforeach; ?>
+                        </div>
+                    </fieldset>
+                <?php endif; ?>
+            </div>
+            <!-- Button to add attendances to the jiri -->
+            <div>
+                <?php component('forms.controls.button', ['text' => 'Ajouter ces contacts au jiri']) ?>
+            </div>
+        </form>
+    <?php endif; ?>
+    <!-- Attendances -->
     <div>
         <?php if (count($jiri->students)): ?>
             <section>
