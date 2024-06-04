@@ -51,7 +51,7 @@ class Jiri extends Database
 
         $sql = <<<SQL
             SELECT * FROM attendances
-            LEFT JOIN contacts c on attendances.contact_id = c.id
+            LEFT JOIN jiri.contacts c on attendances.contact_id = c.id
             WHERE jiri_id = :id
             $role_constraints
             ORDER BY c.name;

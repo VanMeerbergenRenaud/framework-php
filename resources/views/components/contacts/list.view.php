@@ -1,9 +1,6 @@
 <?php
+
 /** @var array $contacts */
-
-?>
-
-<?php
 if (count($contacts) > 0) : ?>
     <ol>
         <?php

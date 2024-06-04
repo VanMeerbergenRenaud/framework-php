@@ -3,6 +3,25 @@
 Ce repo contient le code de référence qui servira durant le cours. Le cours sera construit autour de la réalisation
 d'une application destinée à vous familiariser avec les principes essentiels qui guident le bon développeur backend.
 
+Pour initialiser ce repo, il faut réaliser quelques actions :
+
+- cloner le dossier dans un répertoire surveillé par Herd
+- démarrer votre moteur de DB
+- si ce n'est pas encore fait, créer une base de données. Attention de la nommer conformément au nom défini dans le
+  fichier d’environnement local
+- pointer le terminal sur le dossier racine de ce clône
+- dans le terminal : `composer install`
+- dans le terminal : `npm install`
+- dans le terminal : `php ./database/init.php seed`
+- dans une fenêtre de terminal : `npx tailwindcss -i ./resources/css/app.css -o ./public/css/app.css --watch`
+- dans une autre fenêtre de terminal : `npx browser-sync start --config bs-config.js`
+
+Ceci ouvrira un navigateur à l’adresse `localhost:3000` qui sera en fait un proxy vers la vraie adresse locale de votre
+projet (clé `proxy` du fichier `bs-config.js`). Ce proxy est une adresse gérée par browser-sync. Ça permet de rafraîchir
+votre projet dans le navigateur chaque
+fois qu’une vue change. Si vous voulez rafraîchir d'autres paths, modifiez la clé `files` du fichier `bs-config.js`.
+Vous pouvez lui passer un array.
+
 Nous construirons cette application en utilisant le langage de programmation PHP, sans Framework, mais avec la volonté
 de mimer les pratiques présentes dans ces derniers et tout particulièrement [Laravel](https://laravel.com). PHP est un
 langage qui a par ailleurs [une excellente documentation](https://www.php.net) et une communauté active. Il est donc un

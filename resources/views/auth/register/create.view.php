@@ -10,17 +10,24 @@
         <link rel="stylesheet"
               href="<?= public_path('css/app.css') ?>">
     </head>
-    <body>
-        <a class="sr-only"
-           href="#main-menu">Aller au menu principal</a>
-        <div class="container mx-auto flex flex-col-reverse gap-6">
-            <main class="flex flex-col gap-4">
-                <h1 class="font-bold text-2xl">S’enregistrer</h1>
-                <?php
-                component('forms.register.create'); ?>
-            </main>
-            <?php
-            component('navigations.main'); ?>
+    <?php
+    partials('common_html_start');
+    ?>
+    <h1 class="font-bold text-2xl">S’enregistrer</h1>
+    <section class="bg-slate-50 rounded-md p-4 flex flex-col gap-8">
+        <div>
+            <h2 class="uppercase font-bold">
+                Rejoingnez Jiri !
+            </h2>
+            <p>En vous créant un compte, vous pourrez tirer parti de toutes les fonctionnalités de Jiri. Vous pourrez
+               créer de nouveaux jurys, ajouter des contacts et des projets et monitorer vos jurys en temps réel.</p>
         </div>
-    </body>
+        <?php
+        component('forms.register.create'); ?>
+        <a href="/login"
+           class="block text-right underline">J’ai déjà un compte</a>
+    </section>
+    <?php
+    partials('common_html_end');
+    ?>
 </html>

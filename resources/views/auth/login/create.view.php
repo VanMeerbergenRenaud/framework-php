@@ -10,17 +10,24 @@
         <link rel="stylesheet"
               href="<?= public_path('css/app.css') ?>">
     </head>
-    <body>
-        <a class="sr-only"
-           href="#main-menu">Aller au menu principal</a>
-        <div class="container mx-auto flex flex-col-reverse gap-6">
-            <main class="flex flex-col gap-4">
-                <h1 class="font-bold text-2xl">S’identifier</h1>
-                <?php
-                component('forms.login.create'); ?>
-            </main>
-            <?php
-            component('navigations.main'); ?>
+    <?php
+    partials('common_html_start');
+    ?>
+    <h1 class="font-bold uppercase text-2xl">S’identifier</h1>
+    <section class="bg-slate-50 rounded-md p-4 flex flex-col gap-8">
+        <div>
+            <h2 class="uppercase font-bold">
+                Identifiez-vous !
+            </h2>
+            <p>Il est indispensable de vous identifier pour accéder à vos jurys, vos contacts et vos
+               projets</p>
         </div>
-    </body>
+        <?php
+        component('forms.login.create'); ?>
+        <a href="/register"
+           class="block text-right underline">Je n'ai pas encore de compte</a>
+    </section>
+    <?php
+    partials('common_html_end');
+    ?>
 </html>

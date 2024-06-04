@@ -14,55 +14,51 @@
         <link rel="stylesheet"
               href="<?= public_path('css/app.css') ?>">
     </head>
-    <body>
-        <a class="sr-only"
-           href="#main-menu">Aller au menu principal</a>
-        <div class="container mx-auto flex flex-col-reverse gap-6">
-            <main class="flex flex-col gap-4">
-                <h1 class="font-bold text-2xl">Modifier <?= $contact->name ?></h1>
-                <form action="/contact"
-                      method="post"
-                      class="flex flex-col gap-6">
-                    <?php
-                    method('patch') ?>
-                    <?php
-                    csrf_token() ?>
-                    <input type="hidden"
-                           name="id"
-                           value="<?= $contact->id ?>">
-                    <div class="flex flex-col gap-2">
-                        <?php
-                        component('forms.controls.label-and-input', [
-                            'name' => 'name',
-                            'label' => 'Nom <small>au moins 3 caractères, au plus 255</small>',
-                            'type' => 'text',
-                            'value' => $contact->name,
-                            'placeholder' => 'Ms. Dollie Smith',
-                        ]);
-                        ?>
-                    </div>
-                    <div class="flex flex-col gap-2">
-                        <?php
-                        component('forms.controls.label-and-input', [
-                            'name' => 'email',
-                            'label' => 'Email <small>doit être valide</small>',
-                            'type' => 'text',
-                            'value' => $contact->email,
-                            'placeholder' => 'santo.schulist@yahoo.com',
-                        ]);
-                        ?>
-                    </div>
-                    <div>
-                        <?php
-                        component('forms.controls.button', ['text' => 'Modifier ce contact']);
-                        ?>
-                    </div>
-                </form>
-                <?php
-                component('forms.contacts.delete', ['id' => $contact->id]) ?>
-            </main>
+    <?php
+    partials('common_html_start');
+    ?>
+    <h1 class="font-bold text-2xl">Modifier <?= $contact->name ?></h1>
+    <form action="/contact"
+          method="post"
+          class="flex flex-col gap-6 bg-slate-50 p-4 mb-8">
+        <?php
+        method('patch') ?>
+        <?php
+        csrf_token() ?>
+        <input type="hidden"
+               name="id"
+               value="<?= $contact->id ?>">
+        <div class="flex flex-col gap-2">
             <?php
-            component('navigations.main'); ?>
+            component('forms.controls.label-and-input', [
+                'name' => 'name',
+                'label' => 'Nom du contact<span class="block font-normal">au moins 3 caractères, au plus 255</span>',
+                'type' => 'text',
+                'value' => $contact->name,
+                'placeholder' => 'Ms. Dollie Smith',
+            ]);
+            ?>
         </div>
-    </body>
+        <div class="flex flex-col gap-2">
+            <?php
+            component('forms.controls.label-and-input', [
+                'name' => 'email',
+                'label' => 'Adresse email<span class="block font-normal">doit être valide. Elle vous permettra de l’inviter.</span>',
+                'type' => 'text',
+                'value' => $contact->email,
+                'placeholder' => 'santo.schulist@yahoo.com',
+            ]);
+            ?>
+        </div>
+        <div>
+            <?php
+            component('forms.controls.button', ['text' => 'Modifier ce contact']);
+            ?>
+        </div>
+    </form>
+    <?php
+    component('forms.contacts.delete', ['id' => $contact->id]) ?>
+    <?php
+    partials('common_html_end');
+    ?>
 </html>

@@ -7,8 +7,8 @@
         <?php
         component('forms.controls.label-and-input', [
             'name' => 'email',
-            'label' => 'Email <small>doit être valide</small>',
-            'type' => 'text',
+            'label' => 'Adresse email<small class="block font-normal">doit être valide et n’avoir jamais été utilisée dans notre système.</small>',
+            'type' => 'email',
             'value' => '',
             'placeholder' => 'jon@doe.com',
         ]);
@@ -19,7 +19,7 @@
         <?php
         component('forms.controls.label-and-input', [
             'name' => 'password',
-            'label' => 'Mot de passe <small>au moins 8 caractères, des lettres, des chiffres et des caractères spéciaux (+-*/%!?_)</small>',
+            'label' => 'Mot de passe<small class="block font-normal">au moins 8 caractères, des lettres, des chiffres et des caractères spéciaux (+-*/%!?_)</small>',
             'type' => 'text',
             'value' => '',
             'placeholder' => 'ch4nge_th1s',

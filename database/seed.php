@@ -1,12 +1,12 @@
 <?php
 
 // Seed tables
-echo 'Seeding User table' . PHP_EOL;
+echo 'Seeding User table'.PHP_EOL;
 
 $password = password_hash('ch4nge_th1s', PASSWORD_DEFAULT);
 $users = [
     ['email' => 'dominique.vilain@hepl.be', 'password' => $password],
-    ['email' => 'renaud.vmb@gmail.com', 'ch4nge_this' => $password],
+    ['email' => 'daniel.schreurs@hepl.be', 'password' => $password],
 ];
 $insert_user_in_users_table_sql = 'INSERT INTO users (email, password) VALUES (:email, :password)';
 $insert_user_in_users_table_stmt = $db->prepare($insert_user_in_users_table_sql);
@@ -16,9 +16,9 @@ foreach ($users as $user) {
     $insert_user_in_users_table_stmt->execute();
 }
 $count_users = count($users);
-echo "User table seeded with $count_users users" . PHP_EOL;
+echo "User table seeded with {$count_users} users".PHP_EOL;
 
-echo 'Seeding Jiri table' . PHP_EOL;
+echo 'Seeding Jiri table'.PHP_EOL;
 $jiris = [
     ['name' => 'Projets Web 2024', 'starting_at' => '2024-01-19 08:30:00', 'user_id' => '1'],
     ['name' => 'Design Web 2024', 'starting_at' => '2024-06-19 08:30:00', 'user_id' => '1'],
@@ -38,9 +38,9 @@ foreach ($jiris as $jiri) {
     $insert_jiri_in_jiris_table_stmt->execute();
 }
 $count_jiris = count($jiris);
-echo "Jiri table seeded with $count_jiris jiris" . PHP_EOL;
+echo "Jiri table seeded with {$count_jiris} jiris".PHP_EOL;
 
-echo 'Seeding Contact table' . PHP_EOL;
+echo 'Seeding Contact table'.PHP_EOL;
 $contacts = [
     ['name' => 'Shannon Klocko', 'email' => 'tonette.jenkins@hotmail.com', 'user_id' => '1'],
     ['name' => 'Nedra Gleason', 'email' => 'sherley.bartell@yahoo.com', 'user_id' => '1'],
@@ -61,10 +61,10 @@ foreach ($contacts as $contact) {
     $insert_contact_in_contacts_table_stmt->execute();
 }
 $count_contacts = count($contacts);
-echo "Contact table seeded with $count_contacts contacts" . PHP_EOL;
+echo "Contact table seeded with {$count_contacts} contacts".PHP_EOL;
 
 
-echo 'Seeding Attendance table' . PHP_EOL;
+echo 'Seeding Attendance table'.PHP_EOL;
 $attendances = [
     ['contact_id' => '1', 'jiri_id' => '1', 'role' => 'evaluator'],
     ['contact_id' => '2', 'jiri_id' => '1', 'role' => 'student'],
@@ -83,4 +83,6 @@ foreach ($attendances as $attendance) {
     $insert_attendance_in_attendances_table_stmt->execute();
 }
 $count_attendances = count($attendances);
-echo "Contact table seeded with $count_attendances attendances" . PHP_EOL;
+echo "Contact table seeded with {$count_attendances} attendances".PHP_EOL;
+
+

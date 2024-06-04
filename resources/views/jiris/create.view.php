@@ -1,3 +1,8 @@
+<?php
+
+/** @var array $contacts */
+
+?>
 <!doctype html>
 <html lang="fr">
     <head>
@@ -10,18 +15,13 @@
         <link rel="stylesheet"
               href="<?= public_path('css/app.css') ?>">
     </head>
-    <body>
-        <a class="sr-only"
-           href="#main-menu">Aller au menu principal</a>
-        <div class="container mx-auto flex flex-col-reverse gap-6">
-            <main class="flex flex-col gap-4">
-                <h1 class="font-bold text-2xl">Jiris</h1>
-                <?php
-                /** @var array $contacts */
-                component('forms.jiris.create', compact('contacts')); ?>
-            </main>
-            <?php
-            component('navigations.main'); ?>
-        </div>
-    </body>
+    <?php
+    partials('common_html_start');
+    ?>
+    <h1 class="font-bold text-2xl">Créer un nouveau Jiri</h1>
+    <?php
+    component('forms.jiris.create', compact('contacts')); ?>
+    <?php
+    partials('common_html_end');
+    ?>
 </html>
