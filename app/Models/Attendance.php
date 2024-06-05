@@ -53,4 +53,17 @@ class Attendance extends Database
 
         return $statement->execute();
     }
+
+    public function deleteByContactId(int $contact_id): bool
+    {
+        $sql = <<<SQL
+            DELETE FROM $this->table
+            WHERE contact_id = :contact_id
+        SQL;
+
+        $statement = $this->prepare($sql);
+        $statement->bindValue('contact_id', $contact_id);
+
+        return $statement->execute();
+    }
 }

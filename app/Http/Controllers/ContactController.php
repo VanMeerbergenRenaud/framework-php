@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Attendance;
 use App\Models\Contact;
+use App\Models\Jiri;
 use Core\Auth;
 use Core\Concerns\Request\HasIdentifier;
 use Core\Exceptions\FileNotFoundException;
@@ -13,6 +15,7 @@ use stdClass;
 
 class ContactController
 {
+    private Attendance $attendance;
     private Contact $contact;
 
     use HasIdentifier;
@@ -20,6 +23,7 @@ class ContactController
     public function __construct()
     {
         try {
+            $this->attendance = new Attendance(base_path('.env.local.ini'));
             $this->contact = new Contact(base_path('.env.local.ini'));
         } catch (FileNotFoundException $exception) {
             exit($exception->getMessage());
@@ -116,6 +120,8 @@ class ContactController
         $id = $this->checkValidId();
 
         $this->check_ownership($id);
+
+        $this->attendance->deleteByContactId($id);
 
         $this->contact->delete($id);
 
