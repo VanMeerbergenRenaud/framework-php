@@ -11,4 +11,4 @@ JIRI EXAMS 👇🏻
 - Pouvoir filtrer les contacts dans certains ordres
 - Pouvoir rechercher les contacts depuis un champ de recherche -> FAIT
 
-- Pouvoir supprimer un contact qui est une attendance
+- Pouvoir supprimer un contact qui est une attendance -> FAIT

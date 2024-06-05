@@ -127,4 +127,13 @@ class ContactController
 
         Response::redirect('/contacts');
     }
+
+    public function search(): void
+    {
+        $query = $_GET['query'] ?? '';
+
+        $searchResults = $this->contact->search($query);
+
+        view('contacts.search', compact('searchResults', 'query'));
+    }
 }

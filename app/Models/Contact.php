@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Core\Auth;
 use Core\Database;
 
 class Contact extends Database
@@ -40,6 +41,21 @@ class Contact extends Database
 
         $statement = $this->prepare($sql);
         $statement->bindValue(':id', $id);
+        $statement->execute();
+        return $statement->fetchAll();
+    }
+
+    public function search(string $query): false|array
+    {
+        $sql = <<<SQL
+            SELECT * FROM $this->table
+            WHERE name LIKE :query
+            AND user_id = :user_id
+        SQL;
+
+        $statement = $this->prepare($sql);
+        $statement->bindValue(':query', "%$query%");
+        $statement->bindValue(':user_id', Auth::id());
         $statement->execute();
         return $statement->fetchAll();
     }

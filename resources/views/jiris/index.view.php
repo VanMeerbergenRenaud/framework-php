@@ -24,7 +24,7 @@
     <?php if (!empty($past_jiris) || !empty($upcoming_jiris)) : ?>
 
         <!-- Search form -->
-        <?php component('forms.search', ['label' => 'Nom du jiri']); ?>
+        <?php component('forms.search', ['label' => 'Nom du jiri', 'model' => 'jiri']) ?>
 
         <!-- Upcoming and past jiris -->
         <?php if (!empty($upcoming_jiris)) : ?>

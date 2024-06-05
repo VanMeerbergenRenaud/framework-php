@@ -14,3 +14,6 @@ $router->get('/contact/edit', [ContactController::class, 'edit'])->only('auth');
 $router->patch('/contact', [ContactController::class, 'update'])->only('auth')->csrf();
 
 $router->delete('/contact', [ContactController::class, 'destroy'])->only('auth')->csrf();
+
+// Search
+$router->get('/contact/search', [ContactController::class, 'search'])->only('auth');

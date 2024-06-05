@@ -20,8 +20,7 @@
     <h1 class="font-bold text-2xl">Vos contacts</h1>
     <?php
     if (!empty($contacts)) : ?>
-        <?php
-        component('forms.search', ['label' => 'Nom du contact']); ?>
+        <?php component('forms.search', ['label' => 'Nom du contact', 'model' => 'contact']) ?>
 
         <section>
             <h2 class="font-bold">Mes contacts</h2>
