@@ -2,10 +2,11 @@ JIRI EXAMS 👇🏻
 
 - Ajouter la liste des participants dans la création d'un jiri -> FAIT
 - Pouvoir changer le status de ceux qui sont déjà participants -> FAIT
-- Modifier le jiri avec la liste des participants et des projets -> FAIT
-- La liste ne doit pas contenir les participants qui participent déjà (aucun doublons)
-- Pouvoir modifier la liste ainsi que le status des participants
-- Pouvoir supprimer une attendance, pour enlever la personne du jiri
-- Lorsque l'on est sur le profil d'un contact on devrait voir la liste des jiris auxquels il participe
+- Modifier le jiri avec la liste des participants -> FAIT
+- La liste ne doit pas contenir les participants qui participent déjà (aucun doublons) -> FAIT
+- Pouvoir modifier la liste ainsi que le status des participants -> FAIT
+- Pouvoir supprimer une attendance, pour enlever la personne du jiri -> FAIT
+- Lorsque l'on est sur le profil d'un contact, on devrait voir la liste des jiris auxquels il participe -> FAIT
 
 - Pouvoir filtrer les contacts dans certains ordres
+- Pouvoir rechercher les contacts depuis un champ de recherche

@@ -27,4 +27,20 @@ class Contact extends Database
         $statement->execute();
         return $statement->fetchAll();
     }
+
+    public function jiris(int $id): false|array
+    {
+        $sql = <<<SQL
+            SELECT jiris.id, jiris.name, jiris.starting_at
+            FROM jiris
+            JOIN attendances ON jiris.id = attendances.jiri_id
+            WHERE attendances.contact_id = :id
+            ORDER BY jiris.starting_at DESC;
+        SQL;
+
+        $statement = $this->prepare($sql);
+        $statement->bindValue(':id', $id);
+        $statement->execute();
+        return $statement->fetchAll();
+    }
 }

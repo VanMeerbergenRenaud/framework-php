@@ -66,7 +66,9 @@ class ContactController
 
         $this->check_ownership($contact);
 
-        view('contacts.show', compact('contact'));
+        $jiris = $this->contact->jiris($id);
+
+        view('contacts.show', compact('contact', 'jiris'));
     }
 
     private function check_ownership(int|string|stdClass $contact): void

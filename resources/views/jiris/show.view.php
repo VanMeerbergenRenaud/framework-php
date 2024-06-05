@@ -48,7 +48,7 @@ use Carbon\Carbon;
                 <?php
                 foreach ($jiri->students as $student): ?>
                     <li class="flex gap-2">
-                        <a href="/contact?id=<?= $student->id ?>"><?= $student->name ?>
+                        <a href="/contact?id=<?= $student->id ?>" class="text-blue-500 underline"><?= $student->name ?>
                             - <?= $student->email ?></a>
                     </li>
                 <?php
@@ -64,7 +64,7 @@ use Carbon\Carbon;
                 <?php
                 foreach ($jiri->evaluators as $evaluator): ?>
                     <li class="flex gap-2">
-                        <a href="/contact?id=<?= $evaluator->id ?>"><?= $evaluator->name ?>
+                        <a href="/contact?id=<?= $evaluator->id ?>" class="text-blue-500 underline"><?= $evaluator->name ?>
                             - <?= $evaluator->email ?></a>
                     </li>
                 <?php
