@@ -142,19 +142,20 @@ class Database extends PDO
         $foreign_key = "{$model_name}_id";
         $sql = <<<SQL
             SELECT * FROM $this->table
-                     WHERE $foreign_key = :id
-            SQL;
+             WHERE $foreign_key = :id
+        SQL;
         $statement = $this->prepare($sql);
         $statement->bindValue(':id', $id);
         $statement->execute();
         return $statement->fetchAll();
     }
 
-    public function belongingToWithOrder(int $id, string $column, string $sortColumn = 'name', string $sortDirection = 'asc'): false|array
+    public function belongingToWithOrder(int $id, string $model_name, string $sortColumn = 'name', string $sortDirection = 'asc'): false|array
     {
+        $foreign_key = "{$model_name}_id";
         $sql = <<<SQL
             SELECT * FROM $this->table
-            WHERE $column = :id
+            WHERE $foreign_key = :id
             ORDER BY $sortColumn $sortDirection
         SQL;
 

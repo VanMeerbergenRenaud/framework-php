@@ -35,7 +35,7 @@ class ContactController
         $sortColumn = $_GET['sort'] ?? 'name'; // default sort column is 'name'
         $sortDirection = $_GET['direction'] ?? 'asc'; // default sort direction is 'asc'
 
-        $contacts = $this->contact->belongingToWithOrder(Auth::id(), 'user_id', $sortColumn, $sortDirection);
+        $contacts = $this->contact->belongingToWithOrder(Auth::id(), 'user', $sortColumn, $sortDirection);
 
         view('contacts.index', compact('contacts', 'sortColumn', 'sortDirection'));
     }
