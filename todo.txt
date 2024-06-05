@@ -8,7 +8,8 @@ JIRI EXAMS 👇🏻
 - Pouvoir supprimer une attendance, pour enlever la personne du jiri -> FAIT
 - Lorsque l'on est sur le profil d'un contact, on devrait voir la liste des jiris auxquels il participe -> FAIT
 
-- Pouvoir filtrer les contacts dans certains ordres
 - Pouvoir rechercher les contacts depuis un champ de recherche -> FAIT
 
 - Pouvoir supprimer un contact qui est une attendance -> FAIT
+
+- Pouvoir filtrer les contacts dans certains ordres (par nom, email, ordre A-Z)

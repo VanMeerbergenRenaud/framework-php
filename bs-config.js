@@ -26,7 +26,7 @@ module.exports = {
         "ignoreInitial": true
     },
     "server": false,
-    "proxy": 'https://jiri.test',
+    "proxy": 'http://framework-php.test',
     "port": 3000,
     "middleware": false,
     "serveStatic": [],

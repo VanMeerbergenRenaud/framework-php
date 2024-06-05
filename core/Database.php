@@ -149,4 +149,18 @@ class Database extends PDO
         $statement->execute();
         return $statement->fetchAll();
     }
+
+    public function belongingToWithOrder(int $id, string $column, string $sortColumn = 'name', string $sortDirection = 'asc'): false|array
+    {
+        $sql = <<<SQL
+            SELECT * FROM $this->table
+            WHERE $column = :id
+            ORDER BY $sortColumn $sortDirection
+        SQL;
+
+        $statement = $this->prepare($sql);
+        $statement->bindValue(':id', $id);
+        $statement->execute();
+        return $statement->fetchAll();
+    }
 }

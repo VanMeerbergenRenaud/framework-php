@@ -1,37 +1,52 @@
 <?php
 /** @var array $contacts */
-
 ?>
 <!doctype html>
 <html lang="fr">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport"
-              content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-        <meta http-equiv="X-UA-Compatible"
-              content="ie=edge">
-        <title>Contacts</title>
-        <link rel="stylesheet"
-              href="<?= public_path('css/app.css') ?>">
-    </head>
-    <?php
-    partials('common_html_start');
-    ?>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Contacts</title>
+    <link rel="stylesheet" href="<?= public_path('css/app.css') ?>">
+</head>
+    <?php partials('common_html_start'); ?>
     <h1 class="font-bold text-2xl">Vos contacts</h1>
-    <?php
-    if (!empty($contacts)) : ?>
+    <?php if (!empty($contacts)) : ?>
         <?php component('forms.search', ['label' => 'Nom du contact', 'model' => 'contact']) ?>
 
-        <section>
-            <h2 class="font-bold">Mes contacts</h2>
-            <?php
-            component('contacts.list', [
+        <section class="p-4 bg-gray-100">
+            <h2 class="font-bold text-2xl mb-4">Mes contacts</h2>
+            <?php component('contacts.list', [
                 'title' => 'Mes Contacts',
                 'contacts' => $contacts,
-            ]) ?>
+            ]); ?>
         </section>
-    <?php
-    endif ?>
+    <?php endif ?>
+
+    <?php if (!empty($contacts)) : ?>
+        <table class="min-w-full divide-y divide-gray-200">
+            <caption class="sr-only">Liste des contacts</caption>
+            <thead class="bg-gray-50">
+            <tr>
+                <th class="text-xs px-6 py-3 text-left font-medium text-gray-500 uppercase tracking-wider">
+                    <a href="/contacts?sort=name&direction=<?= $sortColumn === 'name' && $sortDirection === 'asc' ? 'desc' : 'asc' ?>" class="text-gray-900 hover:text-gray-700">Name</a>
+                </th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <a href="/contacts?sort=email&direction=<?= $sortColumn === 'email' && $sortDirection === 'asc' ? 'desc' : 'asc' ?>" class="text-gray-900 hover:text-gray-700">Email</a>
+                </th>
+            </tr>
+            </thead>
+            <tbody class="bg-white divide-y divide-gray-200">
+            <?php foreach ($contacts as $contact): ?>
+                <tr>
+                    <td class="px-6 py-4 whitespace-nowrap"><?= $contact->name ?></td>
+                    <td class="px-6 py-4 whitespace-nowrap"><?= $contact->email ?></td>
+                </tr>
+            <?php endforeach; ?>
+            </tbody>
+        </table>
+    <?php endif ?>
     <div>
         <a href="/contact/create"
            class="underline text-blue-500 flex items-center gap-2">
@@ -43,7 +58,5 @@
             </svg>
             <span>Créer un nouveau contact</span></a>
     </div>
-    <?php
-    partials('common_html_end');
-    ?>
+    <?php partials('common_html_end'); ?>
 </html>

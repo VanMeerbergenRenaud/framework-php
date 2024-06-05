@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Attendance;
 use App\Models\Contact;
-use App\Models\Jiri;
 use Core\Auth;
 use Core\Concerns\Request\HasIdentifier;
 use Core\Exceptions\FileNotFoundException;
@@ -33,11 +32,12 @@ class ContactController
     #[NoReturn]
     public function index(): void
     {
-        $search = $_GET['search'] ?? '';
+        $sortColumn = $_GET['sort'] ?? 'name'; // default sort column is 'name'
+        $sortDirection = $_GET['direction'] ?? 'asc'; // default sort direction is 'asc'
 
-        $contacts = $this->contact->belongingTo(Auth::id(), 'user');
+        $contacts = $this->contact->belongingToWithOrder(Auth::id(), 'user_id', $sortColumn, $sortDirection);
 
-        view('contacts.index', compact('contacts'));
+        view('contacts.index', compact('contacts', 'sortColumn', 'sortDirection'));
     }
 
     #[NoReturn]
