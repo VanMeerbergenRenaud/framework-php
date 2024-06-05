@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Core\Auth;
 use Core\Database;
 
 class Jiri extends Database
@@ -12,9 +13,9 @@ class Jiri extends Database
     {
         $foreign_key = "{$model_name}_id";
         $sql = <<<SQL
-                SELECT * FROM $this->table
-                         WHERE $foreign_key = :id   
-                               AND starting_at > current_timestamp
+                    SELECT * FROM $this->table
+                    WHERE $foreign_key = :id   
+                    AND starting_at > current_timestamp
                 SQL;
         $statement = $this->prepare($sql);
         $statement->bindValue(':id', $id);
@@ -26,9 +27,9 @@ class Jiri extends Database
     {
         $foreign_key = "{$model_name}_id";
         $sql = <<<SQL
-                SELECT * FROM $this->table
-                         WHERE $foreign_key = :id   
-                               AND starting_at < current_timestamp
+                    SELECT * FROM $this->table
+                    WHERE $foreign_key = :id   
+                    AND starting_at < current_timestamp
                 SQL;
         $statement = $this->prepare($sql);
         $statement->bindValue(':id', $id);
@@ -71,4 +72,19 @@ class Jiri extends Database
         return $this->fetchContacts($id, 'evaluator');
     }
 
+    public function search(string $query): false|array
+    {
+        $sql = <<<SQL
+            SELECT * FROM $this->table
+            WHERE name LIKE :query
+            AND user_id = :user_id
+            ORDER BY starting_at;
+        SQL;
+
+        $statement = $this->prepare($sql);
+        $statement->bindValue(':query', "%$query%");
+        $statement->bindValue(':user_id', Auth::id());
+        $statement->execute();
+        return $statement->fetchAll();
+    }
 }

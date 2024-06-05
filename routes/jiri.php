@@ -14,3 +14,6 @@ $router->get('/jiri/edit', [JiriController::class, 'edit'])->only('auth');
 $router->patch('/jiri', [JiriController::class, 'update'])->only('auth')->csrf();
 
 $router->delete('/jiri', [JiriController::class, 'destroy'])->only('auth')->csrf();
+
+/* Search view */
+$router->get('/jiri/search', [JiriController::class, 'search'])->only('auth');

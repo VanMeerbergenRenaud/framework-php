@@ -21,12 +21,13 @@
     partials('common_html_start');
     ?>
     <h1 class="font-bold text-2xl">Vos jiris</h1>
-    <?php
-    if (!empty($past_jiris) || !empty($upcoming_jiris)) : ?>
-        <?php
-        component('forms.search', ['label' => 'Nom du jiri']); ?>
-        <?php
-        if (!empty($upcoming_jiris)) : ?>
+    <?php if (!empty($past_jiris) || !empty($upcoming_jiris)) : ?>
+
+        <!-- Search form -->
+        <?php component('forms.search', ['label' => 'Nom du jiri']); ?>
+
+        <!-- Upcoming and past jiris -->
+        <?php if (!empty($upcoming_jiris)) : ?>
             <section>
                 <h2 class="font-bold">Jiris à venir</h2>
                 <?php

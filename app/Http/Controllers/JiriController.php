@@ -40,7 +40,7 @@ class JiriController
         $upcoming_jiris = $this->jiri->upcomingBelongingTo(Auth::id(), 'user');
         $past_jiris = $this->jiri->pastBelongingTo(Auth::id(), 'user');
 
-        view('jiris.index', compact('upcoming_jiris', 'past_jiris'));
+        view('jiris.index', compact('upcoming_jiris', 'past_jiris', 'search'));
     }
 
     #[NoReturn]
@@ -152,5 +152,14 @@ class JiriController
         $this->jiri->delete($id);
 
         Response::redirect('/jiris');
+    }
+
+    public function search(): void
+    {
+        $query = $_GET['query'] ?? '';
+
+        $searchResults = $this->jiri->search($query);
+
+        view('jiris.search', compact('searchResults', 'query'));
     }
 }
